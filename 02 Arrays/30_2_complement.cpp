@@ -3,46 +3,63 @@
 
 // Better & Easy Approach
 
+// 1, 1, 1, 0, 1, 0, 1, 1, 0
+//
+// 0, 0, 0, 1, 0, 1, 0, 0, 1
+//                      +  1
+// 0  0  0  1  0  1  0  1  0
+
 using namespace std;
 
-void twoComplement(vector<int> &arr)
+vector<int> twoComplement(vector<int> &arr)
 {
-    int carry = 1;
+    int size = arr.size();
+    vector<int> complement(size + 1, 0);
 
-    for (int i = 0; i < arr.size(); i++)
+    // Step - I => Flip the bits
+    for (int i = size - 1, k = complement.size() - 1; i >= 0; i--, k--)
     {
-        if (arr[i] == 0)
-        {
-            arr[i] = 1;
-        }
-        else
-        {
-            arr[i] = 0;
-        }
+        complement[k] = arr[i] == 0 ? 1 : 0;
     }
 
-    for (int i = arr.size() - 1; i >= 0; i--)
+    // Step - II => Add 1
+    int carry = 1;
+    for (int i = complement.size() - 1; i >= 0; i--)
     {
-        int sum = arr[i] + carry;
-        arr[i] = sum % 2;
+        int sum = complement[i] + carry;
+        complement[i] = sum % 2;
         carry = sum / 2;
     }
+
+    if (carry)
+    {
+        complement[0] = carry;
+    }
+
+    return complement;
 }
 
 int main()
 {
-    vector<int> binary = {0, 1, 0, 1, 1, 0};
+    vector<int> binary = {1, 1, 1, 0, 1, 0, 1, 1, 0};
+
     cout << "Before 2's complement:" << endl;
+
+    cout << "  ";
+
     for (int i = 0; i < binary.size(); i++)
     {
         cout << binary[i] << " ";
     }
     cout << endl;
-    twoComplement(binary);
+
+    vector<int> complement = twoComplement(binary);
+
     cout << "After 2's complement:" << endl;
-    for (int i = 0; i < binary.size(); i++)
+
+    for (int i = 0; i < complement.size(); i++)
     {
-        cout << binary[i] << " ";
+        cout << complement[i] << " ";
     }
 
     return 0;
