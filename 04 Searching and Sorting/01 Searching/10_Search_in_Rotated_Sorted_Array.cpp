@@ -15,9 +15,8 @@ int SearchInRotatedSortedArray(vector<int> &arr)
     while (start <= end)
     {
         if (start == end)
-        {
             return start;
-        }
+
         if (mid + 1 < n && arr[mid] > arr[mid + 1])
             return mid;
 
@@ -52,6 +51,8 @@ int binarySearch(int s, int e, int target, vector<int> &arr)
 int search(vector<int> &nums, int target)
 {
     int pivotIndex = SearchInRotatedSortedArray(nums);
+
+    cout << "Pivot index is :" << pivotIndex << endl;
 
     int n = nums.size();
 
